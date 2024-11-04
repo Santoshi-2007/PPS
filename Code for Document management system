@@ -1,0 +1,92 @@
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+class Document {
+private:
+    string title;
+    string content;
+public:
+    Document(string t, string c) : title(t), content(c) {}
+    string getTitle() {
+        return title;
+    }
+    string getContent() {
+        return content;
+    }
+    void displayDocument() {
+        cout << "Title: " << title << "\nContent: " << content << endl;
+    }
+};
+class DocumentManagementSystem {
+private:
+    vector<Document> documents;
+
+public:
+    void addDocument(string title, string content) {
+        Document newDocument(title, content);
+        documents.push_back(newDocument);
+        cout << "Document added successfully.\n";
+    }
+    void viewDocuments() {
+        if (documents.empty()) {
+            cout << "No documents available.\n";
+        } else {
+            for (size_t i = 0; i < documents.size(); ++i) {
+                cout << "\nDocument " << (i + 1) << ":" << endl;
+                documents[i].displayDocument();
+            }
+        }
+    }
+     void searchDocument(string title) {
+        bool found = false;
+        for (size_t i = 0; i < documents.size(); ++i) {
+            if (documents[i].getTitle() == title) {
+                cout << "Document found:\n";
+                documents[i].displayDocument();
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            cout << "Document not found.\n";
+        }
+    }
+};
+int main() {
+    DocumentManagementSystem dms;
+    int choice;
+    string title, content;
+    while (true) {
+        cout << "\nDocument Management System\n";
+        cout << "1. Add a Document\n";
+        cout << "2. View All Documents\n";
+        cout << "3. Search a Document\n";
+        cout << "4. Exit\n";
+        cout << "Choose an option: ";
+        cin >> choice;
+        cin.ignore();  
+   switch (choice) {
+            case 1:
+                cout << "Enter document title: ";
+                getline(cin, title);
+                cout << "Enter document content: ";
+                getline(cin, content);
+                dms.addDocument(title, content);
+                break;
+            case 2:
+                dms.viewDocuments();
+                break;
+            case 3:
+                cout << "Enter document title to search: ";
+                getline(cin, title);
+                dms.searchDocument(title);
+                break;
+            case 4:
+                cout << "Exiting the system.\n";
+                return 0;
+            default:
+                cout << "Invalid choice. Please try again.\n";
+        }
+    }
+}
